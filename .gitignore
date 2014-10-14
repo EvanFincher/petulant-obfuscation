@@ -5,5 +5,5 @@
 *.dump
 javaConnect.erl
 *.class
-*.java~
+.*~
 *~
