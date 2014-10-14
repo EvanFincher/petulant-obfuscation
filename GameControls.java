@@ -19,7 +19,15 @@ public class GameControls extends JPanel {
 		super();
 		this.map = m;
 		this.setLayout (new BoxLayout(this, BoxLayout.X_AXIS));
-		defaultControls();
+		//defaultControls();
+		this.setBorder (new LineBorder(Color.ORANGE, 1));
+	}
+	public GameControls(GameMap m, ErlConnection erl){
+		super();
+		this.map = m;
+		this.setLayout (new BoxLayout(this, BoxLayout.X_AXIS));
+		MyButton butt = new MyButton("Disconnect", erl);
+		this.add(butt);
 		this.setBorder (new LineBorder(Color.ORANGE, 1));
 	}
 	private void defaultControls(){
@@ -33,7 +41,7 @@ public class GameControls extends JPanel {
 		// pan.add(lab);
 		// pan.add(bar);
 		// this.add(pan);
-		ErlConnection erl = new ErlConnection("erlang", "cookie");
+		ErlConnection erl = new ErlConnection("client", "cookie");
 		MyButton butt = new MyButton("Disconnect", erl);
 		this.add(butt);
 		// bar = new MyScrollBar("Timer", map);

@@ -18,6 +18,7 @@ import java.awt.event.*;
 
 public class Main extends JFrame {
     private GameMap harbor_ctrl;
+    private ErlConnection erl;
 
     public static void main (String [] args) {
 		new Main ();
@@ -26,13 +27,14 @@ public class Main extends JFrame {
     public Main () {
 	// Window setup
 	super("Our Game");
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setSize (800, 800);
 	Container content = getContentPane();
 	content.setLayout (new BorderLayout());
 	
+	erl = new ErlConnection("client", "cookie");
 	harbor_ctrl = new GameMap();
-	GameControls mControls = new GameControls(harbor_ctrl);
+	GameControls mControls = new GameControls(harbor_ctrl, erl);
 	PlayerControls controls = new PlayerControls(harbor_ctrl);
 	harbor_ctrl.setControls(controls);
 	
@@ -43,8 +45,16 @@ public class Main extends JFrame {
 	content.add (mControls, BorderLayout.NORTH);
 	content.add (harbor_ctrl, BorderLayout.CENTER);
 	content.add (pan, BorderLayout.SOUTH);
+
+	this.addWindowListener(new WindowAdapter(){
+		public void windowClosing(WindowEvent e){
+			erl.kill();
+			System.exit(0);
+		}
+	});
 	
 	// Show the window
 	setVisible (true);
 	}
+
 }

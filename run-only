@@ -1,0 +1,2 @@
+erl -sname client -setcookie cookie -detached &
+java -cp jinterface.jar:. Main 

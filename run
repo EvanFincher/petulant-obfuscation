@@ -1,2 +1,2 @@
 bash compile
-java -cp jinterface.jar:. Main
+bash run-only
