@@ -18,6 +18,7 @@ public class PlayerControls extends JPanel {
 	
 	private Player myPlayer;
 	private GameMap map;
+	private ErlConnection gamePlayer;
 	private JLabel playerName;
 	private JLabel longitude;
 	private JLabel lattitude;
@@ -40,6 +41,18 @@ public class PlayerControls extends JPanel {
 		this.map = m;
 		this.setLayout (new BoxLayout(this, BoxLayout.Y_AXIS));
 		defaultControls();
+		this.setBorder (new LineBorder(Color.ORANGE, 1));
+	}
+	public PlayerControls(GameMap m, ErlConnection erl){
+		super();
+		buttons = new ArrayList<MyButton>();
+		// bars = new ArrayList<MyScrollBar>();
+		myPlayer = null;
+		this.map = m;
+		this.gamePlayer = erl;
+		this.setLayout (new BoxLayout(this, BoxLayout.Y_AXIS));
+		defaultControls();
+		this.add(dPad());
 		this.setBorder (new LineBorder(Color.ORANGE, 1));
 	}
 	public void add_w(MyButton butt){
@@ -87,8 +100,48 @@ public class PlayerControls extends JPanel {
 	// 		longitude.setText("Longitude: " + thisBoat.longitude());
 	// 	}
 	// }
+	private JPanel dPad(){
+		JPanel dPad = new JPanel();
+		dPad.setLayout (new BoxLayout(dPad, BoxLayout.Y_AXIS));
+		// MyButton butt = new MyButton("Up ", this);
+		// dPad.add(butt);
+
+		JPanel horiz = new JPanel();
+		horiz.setLayout (new BoxLayout(horiz, BoxLayout.X_AXIS));
+		MyButton butt = new MyButton(" A ", this);
+		horiz.add(butt);
+		butt = new MyButton("Up ", this);
+		horiz.add(butt);
+		butt = new MyButton(" S ", this);
+		horiz.add(butt);
+		dPad.add(horiz);
+
+		horiz = new JPanel();
+		horiz.setLayout (new BoxLayout(horiz, BoxLayout.X_AXIS));
+		butt = new MyButton("<<", this);
+		horiz.add(butt);
+		butt = new MyButton("{#}", this);
+		horiz.add(butt);
+		butt = new MyButton(">>", this);
+		horiz.add(butt);
+		dPad.add(horiz);
+
+		horiz = new JPanel();
+		horiz.setLayout (new BoxLayout(horiz, BoxLayout.X_AXIS));
+		butt = new MyButton(" Z ", this);
+		horiz.add(butt);
+		butt = new MyButton("Dn ", this);
+		horiz.add(butt);
+		butt = new MyButton(" X ", this);
+		horiz.add(butt);
+		dPad.add(horiz);
+
+		// butt = new MyButton("Dwn", this);
+		// dPad.add(butt);
+		return dPad;
+	}
 	private void defaultControls(){
-		playerName = new JLabel("Player Name: not yet joined");
+		playerName = new JLabel("Player:___");
 		this.add(playerName);
 		this.add(new JLabel("_________"));
 		lattitude = new JLabel("Lattitude");
@@ -123,5 +176,39 @@ public class PlayerControls extends JPanel {
 	public void setGeo(int x, int y){
 		lattitude.setText("Lattitude: " + y);
 		longitude.setText("Longitude: " + x);
+	}
+
+	public void playerLookup(){
+		gamePlayer.lookup();
+	}
+	public void playerMove(String direction){
+		gamePlayer.move(direction);
+	}
+	public void playerMoveUp(){
+		gamePlayer.move("north");
+	}
+	public void playerMoveDown(){
+		gamePlayer.move("south");
+	}
+	public void playerMoveLeft(){
+		gamePlayer.move("west");
+	}
+	public void playerMoveRight(){
+		gamePlayer.move("east");
+	}
+	public void playerAttack(String direction){
+		gamePlayer.attack(direction);
+	}
+	public void playerAttackUp(){
+		gamePlayer.attack("north");
+	}
+	public void playerAttackDown(){
+		gamePlayer.attack("south");
+	}
+	public void playerAttackLeft(){
+		gamePlayer.attack("west");
+	}
+	public void playerAttackRight(){
+		gamePlayer.attack("east");
 	}
 }

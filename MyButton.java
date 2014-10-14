@@ -14,32 +14,30 @@ import java.awt.*;
 import java.io.*;
 
 public class MyButton extends JButton implements ActionListener {
-    public MyButton (String label, ErlConnection _erl) {
+    public MyButton (String label, GameControls _gCtrl) {
     	buttonText = label;
     	type = 2;
 		setText (label);
 		addActionListener (this);
-		erl = _erl;
+		gCtrl = _gCtrl;
     }
     
+    public MyButton (String label, PlayerControls _ctrl) {
+    	buttonText = label;
+    	type = 1;
+		setText (label);
+		addActionListener (this);
+		ctrl = _ctrl;
+    }
     
     public void actionPerformed(ActionEvent e) {
 	//consoleMessage = " said the fox.";
-		// if(type == 1){
-		// 	consoleMessage = buttonText + " " + buttonText + consoleMessage;
-		// }
+		if(type == 1){
+			System.out.println("|" + buttonText + "|");
+			playerMove();
+		}
 		if(type == 2){
-			if(buttonText == "Connect"){
-				erl.connect();
-				buttonText = "Disconnect";
-				this.setText(buttonText);
-			}
-			else if(buttonText == "Disconnect"){
-				erl.disconnect();
-				buttonText = "Connect";
-				this.setText(buttonText);
-			}
-			//consoleMessage =  buttonText + " erlang node" + consoleMessage;
+			gameControl();
 		}
 		// if(type == 3){
 		// 	go();
@@ -47,8 +45,59 @@ public class MyButton extends JButton implements ActionListener {
 		// }
 		//System.out.println (consoleMessage);
     }
+
+    private void playerMove(){
+    	if(buttonText == " A "){
+    		//nothing yet
+    	} else if (buttonText == "Up "){
+    		ctrl.playerMoveUp();
+    	} else if(buttonText == " S "){
+    		//nothing yet
+    	} else if (buttonText == "<<"){
+    		ctrl.playerMoveLeft();
+    	} else if(buttonText == "{#}"){
+    		//nothing yet
+    	} else if (buttonText == ">>"){
+    		ctrl.playerMoveRight();
+    	} else if(buttonText == " Z "){
+    		//nothing yet
+    	} else if (buttonText == "Dn "){
+    		ctrl.playerMoveDown();
+    	} else if(buttonText == " X "){
+    		//nothing yet
+    	}
+    }
+
+    private void gameControl(){
+    	if(buttonText == "Connect"){
+			gCtrl.gameConnect();
+			buttonText = "Disconnect";
+			this.setText(buttonText);
+		}
+		else if(buttonText == "Disconnect"){
+			gCtrl.gameDisconnect();
+			buttonText = "Connect";
+			this.setText(buttonText);
+		}
+		else if(buttonText == "Join Game"){
+			gCtrl.gameJoin();
+		} else if(buttonText == "New Game"){
+			gCtrl.gameNew();
+		} else if(buttonText == "Ping"){
+			gCtrl.gamePing();
+		} else if(buttonText == "End Game"){
+			gCtrl.gameEnd();
+		} else if(buttonText == "Populate"){
+			gCtrl.gameBoardPopulate();
+		} else if(buttonText == "Refresh"){
+			gCtrl.gameBoardRefresh();
+		} else if(buttonText == "Restart Game"){
+			gCtrl.gameRestart();
+		}
+    }
     
-    private ErlConnection erl;
+    private GameControls gCtrl;
+    private PlayerControls ctrl;
     private int type;
     private String buttonText;
     private String consoleMessage;

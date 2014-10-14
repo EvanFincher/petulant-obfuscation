@@ -1,4 +1,0 @@
-*.beam
-*.erl#
-.#client.erl
-.#server.erl

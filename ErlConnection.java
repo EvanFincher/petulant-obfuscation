@@ -14,6 +14,10 @@ public class ErlConnection {
      private final String qualifiedPeer;
      private Boolean isConnected = false;
      private Boolean erlangModulesLoaded = false;
+
+     private OtpErlangAtom sName;
+     private OtpErlangAtom sNode;
+     private OtpErlangAtom playerName = new OtpErlangAtom("0"); //initialize for now
     
  
       public ErlConnection(String _peer, String _cookie) {
@@ -130,6 +134,91 @@ public class ErlConnection {
          exp.printStackTrace();
          return "localhost";
        }
+     }
+
+     public void joinGame(String gameAccessToken, String serverHost){
+        sName = new OtpErlangAtom(gameAccessToken);
+        sNode = new OtpErlangAtom(serverHost);
+        clientFunction("join");
+     }
+
+     public void startServer(String gameAccessToken, String serverHost){
+        sName = new OtpErlangAtom(gameAccessToken);
+        sNode = new OtpErlangAtom(serverHost);
+        start("start");
+        //joinGame(gameAccessToken, serverHost);
+      }
+      public void restart(){
+        start("restart");
+      }
+
+     private void start(String action){
+        clientFunction(action);
+     }
+
+     public void stop(){
+        clientFunction("stop");
+     }
+
+     public void ping(){
+        clientFunction("ping");
+     }
+
+     public void refresh(){
+        clientFunction("refresh");
+     }
+
+     public void populate(){
+        populate("preset", "one");
+     }
+
+     private void populate(String _type, String _data){
+        OtpErlangAtom type = new OtpErlangAtom(_type);
+        OtpErlangAtom data = new OtpErlangAtom(_data);
+        OtpErlangObject args[] = new OtpErlangObject[]{sName, sNode, type, data};
+        clientFunction("populate", args);
+     }
+
+     public void move(String direction){
+        action("move", direction);
+     }
+
+     public void attack(String direction){
+        action("attack", direction);
+     }
+
+     private void action(String action, String direction){
+        OtpErlangObject actionObj[] = new OtpErlangObject[]{new OtpErlangAtom(action), new OtpErlangAtom(direction)};
+        OtpErlangTuple actionTuple = new OtpErlangTuple(actionObj);
+        action(actionTuple);
+     }
+
+     private void action(OtpErlangTuple action){
+        OtpErlangObject args[] = new OtpErlangObject[]{sName, sNode, action, playerName};
+        clientFunction("action", args);
+     }
+
+     public void lookup(){
+        OtpErlangObject args[] = new OtpErlangObject[]{sName, sNode, playerName};
+        clientFunction("lookup", args);
+     }
+
+     private void clientFunction(String function){
+        OtpErlangObject stdArgs[] = new OtpErlangObject[]{sName, sNode};
+        clientFunction(function, stdArgs);
+     }
+     private void clientFunction(String function, OtpErlangObject[] args){
+        try {
+           conn.sendRPC("client", function, args);
+           received = conn.receiveRPC();
+           System.out.println(function + ":");
+           System.out.println(received.toString());
+        }
+        catch (Exception exp) {
+           System.out.println(function + " error is :" + exp.toString());
+           exp.printStackTrace();
+         }
+         System.out.println("\n");
      }
  
 }

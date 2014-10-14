@@ -24,6 +24,9 @@ public class GameMap extends JComponent implements MouseListener {
     private int longitude = 0;
     private Random generator = new Random();
     private Player myPlayer;
+    private ImageIcon myPlayerIcon = new ImageIcon("msheldon.gif");
+    private ImageIcon playerIcon = new ImageIcon("msheldon.gif");
+    private ImageIcon obstacleIcon = new ImageIcon("msheldon.gif");
 
     public GameMap () {
 		players = new ArrayList<Player>();
@@ -48,7 +51,20 @@ public class GameMap extends JComponent implements MouseListener {
     
     private void paintPlayer (int i, Graphics g){
     	Player s = (Player)players.get(i);
-    	s.icon.paintIcon(this, g, s.x, s.y);
+    	//s.icon.paintIcon(this, g, s.x, s.y);
+    	getIcon(s.type).paintIcon(this, g, s.x, s.y);
+    }
+
+    private ImageIcon getIcon(String type){
+    	if(type == "player"){
+    		return playerIcon;
+    	}
+    	else if(type == "myPlayer"){
+    		return myPlayerIcon;
+    	}
+    	else{
+    		return obstacleIcon;
+    	}
     }
     
  //    private void move_ship(int i, int distance){

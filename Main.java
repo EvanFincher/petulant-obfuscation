@@ -35,7 +35,7 @@ public class Main extends JFrame {
 	erl = new ErlConnection("client", "cookie");
 	harbor_ctrl = new GameMap();
 	GameControls mControls = new GameControls(harbor_ctrl, erl);
-	PlayerControls controls = new PlayerControls(harbor_ctrl);
+	PlayerControls controls = new PlayerControls(harbor_ctrl, erl);
 	harbor_ctrl.setControls(controls);
 	
 	JPanel pan = new JPanel();
