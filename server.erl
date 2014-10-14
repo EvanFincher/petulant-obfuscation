@@ -23,9 +23,12 @@ loop(Players, Board) ->
     {ping, Sender} ->
       Sender ! {ok, self()},
       loop(Players, Board);
+    {populate, Type, Data, Sender} ->
+      {NewPlayers,NewBoard} = placeObjects(Type, Data, Players, Board),
+      Sender ! {populated, NewBoard},
+      loop(NewPlayers, NewBoard);
     {join, Sender} ->
       {NewPlayer, NewPlayers, NewBoard} = join(Sender, Players, Board),
-      %NewBoard = joinBoard(NewPlayer, Board),
       Sender ! {joined, NewPlayer#player.name, NewBoard},
       loop(NewPlayers, NewBoard);
     {lookup, PlayerName, Sender} ->
@@ -62,16 +65,32 @@ move(Player, Loc, Players, Board) ->
   {NewPlayers, NewBoard}. 
   
 
+getDirection(Dir,{X,Y}) ->
+  case Dir of
+    north -> {X,Y+1};
+    east -> {X+1,Y};
+    south -> {X,Y-1};
+    west -> {X-1,Y}
+  end.
+
+isPlayer(Loc,Board) ->
+  Occupied = isOccupied(Loc,Board),
+  if
+    Occupied -> 
+      Tile = maps:get(Loc,Board),
+      Type = Tile#tile.type,
+      if
+        Type == player -> true;
+        true -> false
+      end;
+    true -> false
+  end.
+
 %handles action according to type (move, attack, etc)
 takeAction({move, Dir}, PlayerName, Players, Board)->
   Player = getPlayer(PlayerName, Players),
   {X,Y} = Player#player.space,
-  case Dir of
-    north -> Loc = {X,Y+1};
-    east -> Loc = {X+1,Y};
-    south -> Loc = {X,Y-1};
-    west -> Loc = {X-1,Y}
-  end,
+  Loc = getDirection(Dir,{X,Y}),
   InBounds = isInBounds(Loc,Board),
   Occupied = isOccupied(Loc,Board),
   if
@@ -79,6 +98,18 @@ takeAction({move, Dir}, PlayerName, Players, Board)->
       {NewPlayers, NewBoard} = move(Player, Loc, Players, Board),
       {acted, NewPlayers, NewBoard};
     true ->
+      {failed, Players, Board}
+  end;
+takeAction({attack,Dir}, PlayerName, Players, Board) ->
+  Player = getPlayer(PlayerName, Players),
+  {X,Y} = Player#player.space,
+  Loc = getDirection(Dir,{X,Y}),
+  IsPlayer = isPlayer(Loc,Board),
+  if
+    IsPlayer -> 
+      NewBoard = maps:remove(Loc, Board),
+      {acted, Players, NewBoard};
+    true -> 
       {failed, Players, Board}
   end.
 
@@ -92,6 +123,16 @@ join(NewPlayerPid, Players, Board) ->
    {NewPlayer,NewBoard} = joinBoard(Player, Board),
    NewPlayers = maps:put(PlayerName, NewPlayer, Players),
    {NewPlayer, NewPlayers, NewBoard}.
+
+placeObjects(preset, one, Players, Board) ->
+  {ok,B1} = place(-1, object, {2,1}, Board),
+  {ok,B2} = place(-1, object, {2,2}, B1),
+  {ok,B3} = place(-1, object, {3,6}, B2),
+  {ok,B4} = place(-1, object, {4,0}, B3),
+  {ok,B5} = place(-1, object, {4,9}, B4),
+  {_,P1,B6} = join(-1,Players,B5),
+  {_,P2,B7} = join(-1,P1,B6),
+  {P2,B7}.
 
 %returns true if 'Loc' is in bounds
 isInBounds(Loc, Board) ->
