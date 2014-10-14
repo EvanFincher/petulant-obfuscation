@@ -14,6 +14,7 @@ public class ErlConnection {
      private final String qualifiedPeer;
      private Boolean isConnected = false;
      private Boolean erlangModulesLoaded = false;
+     private Boolean gameJoined = false;
 
      private OtpErlangAtom sName;
      private OtpErlangAtom sNode;
@@ -139,7 +140,9 @@ public class ErlConnection {
      public void joinGame(String gameAccessToken, String serverHost){
         sName = new OtpErlangAtom(gameAccessToken);
         sNode = new OtpErlangAtom(serverHost);
-        clientFunction("join");
+        if(clientFunction("join")){
+          gameJoined = true;
+        }
      }
 
      public void startServer(String gameAccessToken, String serverHost){
@@ -203,22 +206,38 @@ public class ErlConnection {
         clientFunction("lookup", args);
      }
 
-     private void clientFunction(String function){
+     private Boolean clientFunction(String function){
         OtpErlangObject stdArgs[] = new OtpErlangObject[]{sName, sNode};
-        clientFunction(function, stdArgs);
+        return clientFunction(function, stdArgs);
      }
-     private void clientFunction(String function, OtpErlangObject[] args){
+     private Boolean clientFunction(String function, OtpErlangObject[] args){
+        Boolean success = false;
+        if(!checkPermission(function)){
+          return false;
+        }
         try {
            conn.sendRPC("client", function, args);
            received = conn.receiveRPC();
            System.out.println(function + ":");
            System.out.println(received.toString());
+           success = true;
         }
         catch (Exception exp) {
            System.out.println(function + " error is :" + exp.toString());
            exp.printStackTrace();
          }
          System.out.println("\n");
+         return success;
+     }
+
+     private Boolean checkPermission(String function){
+        if(gameJoined){
+          return true;
+        }
+        else if(function == "join" || function == "start" || function == "stop" || function == "ping" || function == "restart"){
+          return true;
+        }
+        return false;
      }
  
 }

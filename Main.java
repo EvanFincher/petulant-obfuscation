@@ -28,7 +28,7 @@ public class Main extends JFrame {
 	// Window setup
 	super("Our Game");
 	//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	setSize (800, 800);
+	setSize (850, 800);
 	Container content = getContentPane();
 	content.setLayout (new BorderLayout());
 	
@@ -52,6 +52,8 @@ public class Main extends JFrame {
 			System.exit(0);
 		}
 	});
+
+	harbor_ctrl.startGame();
 	
 	// Show the window
 	setVisible (true);
