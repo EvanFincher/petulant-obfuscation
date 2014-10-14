@@ -1,0 +1,9 @@
+*.beam
+*.erl#
+.#client.erl
+.#server.erl
+*.dump
+javaConnect.erl
+*.class
+*.java~
+*~
