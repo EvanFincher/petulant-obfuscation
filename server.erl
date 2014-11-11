@@ -1,6 +1,7 @@
 -module(server).
 -export([start/1,test/1]).
 
+
 %starts the server and registers it under the name provided
 
 start(SName) ->
