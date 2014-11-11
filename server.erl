@@ -15,7 +15,7 @@ loop(Players, Board) ->
   receive
     {join, Sender} ->
       NewPlayers = join(Sender, Players),
-      Sender ! {ok, NewPlayers},
+      Sender ! {joined, NewPlayers},
       loop(NewPlayers, Board);
     {ping, Sender} ->
       Sender ! {ok, self()},
@@ -30,4 +30,5 @@ join(NewPlayerPid, Players) ->
    NewPlayer = #player{name=PlayerName, pid=NewPlayerPid},
    maps:put(PlayerName, NewPlayer, Players).
 
-
+isOccupied(Board, X,Y) -> 
+   map:is_key({X, Y}, Board).
