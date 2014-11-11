@@ -1,5 +1,5 @@
 -module(client).
--export([start/2,stop/2,join/1,ping/2]).
+-export([start/2,stop/2,join/2,ping/2]).
 
 start(SName,Node) ->
   Pid = spawn(Node,server,start,[SName]),
@@ -12,9 +12,11 @@ stop(SName,Node) ->
     {stopping, Pid} -> {stopping, Pid}
   end.
 
-join(Server) ->
-  ok,
-  ok.
+join(SName,Node) ->
+  {SName,Node} ! {join, self()},
+  receive
+    {joined, Players} -> Players
+  end.
 
 ping(SName,Node) ->
   {SName,Node} ! {ping, self()},

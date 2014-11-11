@@ -15,7 +15,7 @@ loop(Players, Board) ->
   receive
     {join, Sender} ->
       NewPlayers = join(Sender, Players),
-      Sender ! {ok, NewPlayers},
+      Sender ! {joined, NewPlayers},
       loop(NewPlayers, Board);
     {ping, Sender} ->
       Sender ! {ok, self()},
