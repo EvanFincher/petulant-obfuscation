@@ -1,6 +1,9 @@
 -module(server).
 -export([start/1]).
 
+%For Testing uncomment this:
+%-export([start/1, loop/2, join/2, joinBoard/2, isOccupied/3]).
+
 -record(player, {name, pid}).
 -record(tile, {space, playerName}).
 
@@ -10,16 +13,17 @@ start(SName) ->
   random:seed(now()),
   register(SName, self()),
   UninitializedBoard = maps:new(),
-  Players = maps: new(),
-  Board = maps:put(bounds, {10,10}, UninitializedBoard),
+  BoundsTile = #tile{space={10,10}, playerName=bounds},
+  Board = maps:put(bounds, BoundsTile, UninitializedBoard),
+  Players = maps:new(),
   loop(Players, Board).
 
 
 loop(Players, Board) ->
   receive
     {join, Sender} ->
-      NewPlayers = join(Sender, Players),
-      NewBoard = joinBoard(Sender, Board),
+      {NewPlayer, NewPlayers} = join(Sender, Players),
+      NewBoard = joinBoard(NewPlayer, Board),
       Sender ! {joined, {NewPlayers, NewBoard}},
       loop(NewPlayers, NewBoard);
     {ping, Sender} ->
@@ -33,19 +37,22 @@ loop(Players, Board) ->
 join(NewPlayerPid, Players) ->
    PlayerName = maps:size(Players),
    NewPlayer = #player{name=PlayerName, pid=NewPlayerPid},
-   maps:put(PlayerName, NewPlayer, Players).
+   NewPlayers = maps:put(PlayerName, NewPlayer, Players),
+   {NewPlayer, NewPlayers}.
 
 isOccupied(X, Y, Board) -> 
-   map:is_key({X, Y}, Board).
+   maps:is_key({X, Y}, Board).
 
-joinBoard(PlayerName, Board) ->
-   {Xbound, Ybound} = maps:get(bounds, Board),
+joinBoard(Player, Board) ->
+   PlayerName = Player#player.name,
+   BoundsTile = maps:get(bounds, Board),
+   {Xbound, Ybound} = BoundsTile#tile.space,
    X = random:uniform(Xbound),
    Y = random:uniform(Ybound),
    case isOccupied(X, Y, Board) of
       false ->
          NewTile = #tile{space={X,Y}, playerName=PlayerName}, 
-         map:put({X,Y}, NewTile, Board);
+         maps:put({X,Y}, NewTile, Board);
       true ->
          joinBoard(PlayerName, Board)
    end.
