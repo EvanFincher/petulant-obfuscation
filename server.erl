@@ -7,16 +7,21 @@
 %starts the server and registers it under the name provided
 
 start(SName) ->
+  random:seed(now()),
   register(SName, self()),
-  loop(maps:new(), maps:new()).
+  UninitializedBoard = maps:new(),
+  Players = maps: new(),
+  Board = maps:put(bounds, {10,10}, UninitializedBoard),
+  loop(Players, Board).
 
 
 loop(Players, Board) ->
   receive
     {join, Sender} ->
       NewPlayers = join(Sender, Players),
-      Sender ! {joined, NewPlayers},
-      loop(NewPlayers, Board);
+      NewBoard = joinBoard(Sender, Board),
+      Sender ! {joined, {NewPlayers, NewBoard}},
+      loop(NewPlayers, NewBoard);
     {ping, Sender} ->
       Sender ! {ok, self()},
       loop(Players, Board);
@@ -30,5 +35,17 @@ join(NewPlayerPid, Players) ->
    NewPlayer = #player{name=PlayerName, pid=NewPlayerPid},
    maps:put(PlayerName, NewPlayer, Players).
 
-isOccupied(Board, X,Y) -> 
+isOccupied(X, Y, Board) -> 
    map:is_key({X, Y}, Board).
+
+joinBoard(PlayerName, Board) ->
+   {Xbound, Ybound} = maps:get(bounds, Board),
+   X = random:uniform(Xbound),
+   Y = random:uniform(Ybound),
+   case isOccupied(X, Y, Board) of
+      false ->
+         NewTile = #tile{space={X,Y}, playerName=PlayerName}, 
+         map:put({X,Y}, NewTile, Board);
+      true ->
+         joinBoard(PlayerName, Board)
+   end.
