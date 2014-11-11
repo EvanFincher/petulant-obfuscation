@@ -13,6 +13,7 @@ stop(SName,Node) ->
   end.
 
 join(Server) ->
+  ok,
   ok.
 
 ping(SName,Node) ->
