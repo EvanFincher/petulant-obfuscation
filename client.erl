@@ -25,3 +25,9 @@ ping(SName,Node) ->
   after 5000 ->
     {error, timeout}
   end.
+  
+
+%
+%client functions:
+%synchronous request_update
+%send_action
