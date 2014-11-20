@@ -1,0 +1,2 @@
+bash compile
+java -cp jinterface.jar:. Main
