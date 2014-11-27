@@ -18,21 +18,33 @@ start(SName) ->
   Players = maps:new(),
   loop(Players, Board).
 
-
+%main server loop; processes incoming messages
 loop(Players, Board) ->
   receive
+    {ping, Sender} ->
+      Sender ! {ok, self()},
+      loop(Players, Board);
     {join, Sender} ->
       {NewPlayer, NewPlayers} = join(Sender, Players),
       NewBoard = joinBoard(NewPlayer, Board),
       Sender ! {joined, {NewPlayers, NewBoard}},
       loop(NewPlayers, NewBoard);
-    {ping, Sender} ->
-      Sender ! {ok, self()},
-      loop(Players, Board);
+    {refresh, Sender} ->
+      Sender ! {latest, Board},
+      loop(Players,Board);
+    {action, Action, Sender} ->
+      {Status, NewBoard} = takeAction(Action, Board),
+      Sender ! {Status, NewBoard},
+      loop(Players, NewBoard);
     {stop, Sender} ->
       Sender ! {stopping, self()},
       ok
   end.
+
+%handles action according to type (move, attack, w/e)
+takeAction({Type, Data}, Board)->
+  {acted, Board}.
+
 
 join(NewPlayerPid, Players) ->
    PlayerName = maps:size(Players),
