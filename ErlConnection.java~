@@ -18,8 +18,8 @@ public class ErlConnection {
      // }
  
       public ErlConnection(String _peer, String _cookie) {
-          peer = _peer;
-      	  //peer = "erlang@wr-130-64-196-27";
+          //peer = _peer;
+      	  peer = "evan@lab120j.eecs.tufts.edu";
           cookie = _cookie;
           connect();
  

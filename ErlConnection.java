@@ -19,7 +19,7 @@ public class ErlConnection {
  
       public ErlConnection(String _peer, String _cookie) {
           //peer = _peer;
-      	  peer = "evan@lab120j.eecs.tufts.edu";
+      	  peer = "evan@ubuntu";
           cookie = _cookie;
           connect();
  

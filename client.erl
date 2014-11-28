@@ -1,5 +1,5 @@
 -module(client).
--export([start/2,stop/2,join/2,ping/2,refresh/2,act/3,test/2]).
+-export([start/2,stop/2,restart/2,join/2,lookup/3,ping/2,refresh/2,act/4,test/2]).
 
 
 %spawns a new server registered under SName; pings to verify success
@@ -16,14 +16,29 @@ stop(SName,Node) ->
     {stopping, Pid} -> {stopping, Pid}
   end.
 
-%synchronous; join the specified server
+%restart specified server
+restart(SName,Node) ->
+  stop(SName,Node),
+  timer:sleep(100),
+  start(SName,Node).
+
+%join the specified server
+%returns signature (PlayerName) needed for act function, lookup
 join(SName,Node) ->
   {SName,Node} ! {join, self()},
   receive
-    {joined, Players} -> Players
+    {joined, PlayerName, Board} -> {PlayerName, Board}
+  end.
+
+%fetch information for player 'PlayerName'
+lookup(SName, Node, PlayerName) ->
+  {SName, Node} ! {lookup, PlayerName, self()},
+  receive
+    {found, Player} -> Player
   end.
 
 %ping the server and wait for a reply; timeout after 5000
+%this wasn't working for me earlier
 ping(SName,Node) ->
   {SName,Node} ! {ping, self()},
   receive
@@ -33,27 +48,28 @@ ping(SName,Node) ->
   end.
 
 
-%asks the server for the current game board
+%asks the server for the current game board;
+%should be called regularly (maybe every .5 seconds) by client
+%in order to stay current
 refresh(SName, Node) -> 
   {SName, Node} ! {refresh, self()},
   receive
     {latest, Board} -> Board
   end. 
 
-%send an action to the server for processing 
-act(SName, Node, Action) ->
-  {SName, Node} ! {action, Action, self()},
+%send an action to the server for processing
+%e.g. {move, north}; PlayerName was returned by join function 
+act(SName, Node, Action, PlayerName) ->
+  {SName, Node} ! {action, Action, PlayerName, self()},
   receive
     {acted, Board} -> {ok, Board};
-    {invalid, Board} -> {invalid, Board}
+    {failed, Board} -> {failed, Board}
   end.
-
-%maybe break out a separate move fun to simplify server logic
 
 test(SName, Node) ->
   start(SName, Node),
-  join(SName, Node),
+  {PlayerName, _Board} = join(SName, Node),
   Board1 = refresh(SName, Node),
-  {ok, Board2} = act(SName, Node, {move, left}),
+  {ok, Board2} = act(SName, Node, {move, north}, PlayerName),
   L1 = [{refresh, ok}, {act, ok}, Board1].
   
