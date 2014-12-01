@@ -24,7 +24,8 @@ public class ErlConnection {
           peer = _peer;
           cookie = _cookie;
           hostname = getHostName();
-          qualifiedPeer = peer + "@" + hostname;
+          //qualifiedPeer = peer + "@" + hostname;
+          qualifiedPeer = "evan@ubuntu";
           connect();
  
           if(!isConnected){
@@ -95,6 +96,9 @@ public class ErlConnection {
            conn.sendRPC("shell_default", "c", new OtpErlangObject[]{new OtpErlangAtom("server")});
            received = conn.receiveRPC();
            System.out.println(received.toString());
+           conn.sendRPC("shell_default", "c", new OtpErlangObject[]{new OtpErlangAtom("javaClient")});
+           received = conn.receiveRPC();
+           System.out.println(received.toString());
            erlangModulesLoaded = true;
         }
         catch (Exception exp) {
@@ -128,6 +132,7 @@ public class ErlConnection {
           String hostname = addr.getHostName();
           //return hostname + ".tufts.edu";
           return "localhost";
+          //return hostname;
         }
         catch (Exception exp) {
          System.out.println("hostname error is :" + exp.toString());
@@ -209,7 +214,7 @@ public class ErlConnection {
      }
      private void clientFunction(String function, OtpErlangObject[] args){
         try {
-           conn.sendRPC("client", function, args);
+           conn.sendRPC("javaClient", function, args);
            received = conn.receiveRPC();
            System.out.println(function + ":");
            System.out.println(received.toString());
