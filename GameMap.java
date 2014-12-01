@@ -24,9 +24,10 @@ public class GameMap extends JComponent implements MouseListener {
     private int longitude = 0;
     private Random generator = new Random();
     private Player myPlayer;
-    private ImageIcon myPlayerIcon = new ImageIcon("msheldon.gif");
-    private ImageIcon playerIcon = new ImageIcon("msheldon.gif");
-    private ImageIcon obstacleIcon = new ImageIcon("msheldon.gif");
+    private ImageIcon myPlayerIcon = new ImageIcon("m-scaled.gif");
+    private ImageIcon playerIcon = new ImageIcon("nr-scaled.gif");
+    private ImageIcon obstacleIcon = new ImageIcon("sis-scaled.gif");
+    private static int scalar = 65;
 
     public GameMap () {
 		players = new ArrayList<Player>();
@@ -37,13 +38,11 @@ public class GameMap extends JComponent implements MouseListener {
     }
     
     public void startGame(){
-  //   	this.playerShip = new Pair(this, true, true);
-		// this.add_ship(this.playerShip);
-		// Ship star = new Star(this, "Target");
-		// this.add_ship(star);
+    	this.repaint();
 	}
 
     public void paintComponent (Graphics g) {
+    	drawGrid(g);
 		for(int i=0; i<num_players; i++){
 			paintPlayer(i, g);
 		}
@@ -51,8 +50,26 @@ public class GameMap extends JComponent implements MouseListener {
     
     private void paintPlayer (int i, Graphics g){
     	Player s = (Player)players.get(i);
+    	if(s.name == myPlayer.name){
+    		s.type = myPlayer.type;
+    		myPlayer = s;
+    	}
     	//s.icon.paintIcon(this, g, s.x, s.y);
-    	getIcon(s.type).paintIcon(this, g, s.x, s.y);
+    	getIcon(s.type).paintIcon(this, g, s.x*scalar + 2, s.y*scalar + 2);
+    }
+
+    private void drawGrid(Graphics g){
+    	Graphics2D g2d = (Graphics2D)g;
+    	g2d.setColor(Color.blue);
+
+    	int w = this.getWidth();
+    	int h = this.getHeight();
+    	for(int i=0; i<(w/scalar); i++){
+    		g2d.drawLine(i*scalar, 0, i*scalar, h);
+    	}
+    	for(int i=0; i<(h/scalar); i++){
+    		g2d.drawLine(0, i*scalar, w, i*scalar);
+    	}
     }
 
     private ImageIcon getIcon(String type){
@@ -65,6 +82,50 @@ public class GameMap extends JComponent implements MouseListener {
     	else{
     		return obstacleIcon;
     	}
+    }
+
+    public void paintTest(){
+    	Player s = randomPlayer("myPlayer");
+    	setMyPlayer(s);
+    	addPlayer(s);
+    	addPlayer(randomPlayer());
+    	addPlayer(randomPlayer());
+    	addPlayer(randomObject());
+    	addPlayer(randomObject());
+    }
+
+    public void pushPlayers(ArrayList<Player> _players){
+    	players = _players;
+    	num_players = players.size();
+    	this.repaint();
+    }
+
+    public Player setMyPlayer(Player player){
+    	myPlayer = player;
+    	myPlayer.type = "myPlayer";
+    	return myPlayer;
+    }
+
+    public void addPlayer(Player player){
+    	players.add(player);
+    	num_players = players.size();
+    	this.repaint();
+    }
+
+    public Player randomObject(){
+    	return randomPlayer("object");
+    }
+    public Player randomPlayer(){
+    	return randomPlayer("player");
+    }
+    public Player randomPlayer(String t){
+    	System.out.println(this.getHeight());
+    	System.out.println(this.getWidth());
+    	int y = this.generator.nextInt(this.getHeight())/scalar;
+		int x = this.generator.nextInt(this.getWidth())/scalar;
+		String n = "rand" + String.valueOf(this.generator.nextInt(this.getWidth() * this.getHeight()));
+		Player p = new Player(n, x, y, t);
+		return p;
     }
     
  //    private void move_ship(int i, int distance){

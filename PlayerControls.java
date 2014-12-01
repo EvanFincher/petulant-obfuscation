@@ -140,6 +140,13 @@ public class PlayerControls extends JPanel {
 		// dPad.add(butt);
 		return dPad;
 	}
+	private JPanel testPanel(){
+		JPanel test = new JPanel();
+		test.setLayout (new BoxLayout(test, BoxLayout.Y_AXIS));
+		MyButton butt = new MyButton("Paint Test", this);
+		test.add(butt);
+		return test;
+	}
 	private void defaultControls(){
 		playerName = new JLabel("Player:___");
 		this.add(playerName);
@@ -168,6 +175,7 @@ public class PlayerControls extends JPanel {
 		// this.add_w(delButt);
 		//AddWidget w = new AddWidget(map, this);
 		//this.add(w);
+		this.add(testPanel());
 		JPanel temp2 = new JPanel();
 		temp2.setLayout(new FlowLayout());
 		this.add(temp2); //spacer
@@ -210,5 +218,11 @@ public class PlayerControls extends JPanel {
 	}
 	public void playerAttackRight(){
 		gamePlayer.attack("east");
+	}
+
+	public void otherButton(String buttonText){
+		if(buttonText == "Paint Test"){
+			map.paintTest();
+		}
 	}
 }

@@ -65,6 +65,8 @@ public class MyButton extends JButton implements ActionListener {
     		ctrl.playerMoveDown();
     	} else if(buttonText == " X "){
     		//nothing yet
+    	} else {
+    		ctrl.otherButton(buttonText);
     	}
     }
 
@@ -95,11 +97,20 @@ public class MyButton extends JButton implements ActionListener {
 			gCtrl.gameRestart();
 		}
     }
+
+    public Boolean show(Boolean _show){
+    	show = _show;
+    	return show;
+    }
+    public Boolean isShown(){
+    	return show;
+    }
     
     private GameControls gCtrl;
     private PlayerControls ctrl;
     private int type;
     private String buttonText;
     private String consoleMessage;
+    private Boolean show = true;
     
 }

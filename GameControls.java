@@ -26,6 +26,8 @@ public class GameControls extends JPanel {
 	private MyButton restButt;
 	private MyButton pingButt;
 	private MyButton popButt;
+
+	//private MyButton[] shownButts = [startButt, freshButt, connButt, joinButt, stopButt, restButt, pingButt, popButt];
 	
 	public GameControls(GameMap m){
 		super();
@@ -98,6 +100,8 @@ public class GameControls extends JPanel {
 		this.add(freshButt);
 		popButt = new MyButton("Populate", this);
 		this.add(popButt);
+
+		//showButts([true, false, true, true, false, false, false, false]);
 	}
 
 	public void gameConnect(){
@@ -107,6 +111,8 @@ public class GameControls extends JPanel {
 		game.disconnect();
 	}
 	public void gameNew(){
+		//showButts([false, false, true, true, true, true, true, false]); //2-step
+		//showButts([false, true, true, false, true, true, true, true]); //1-step
 		String gameAccessToken = sName.getText();
 		String gameHost = sNode.getText();
 		gameNew(gameAccessToken, gameHost);
@@ -115,6 +121,7 @@ public class GameControls extends JPanel {
 		game.startServer(gameAccessToken, gameHost);
 	}
 	public void gameJoin(){
+		//showButts([false, true, true, false, true, true, true, true]);
 		String gameAccessToken = sName.getText();
 		String gameHost = sNode.getText();
 		gameJoin(gameAccessToken, gameHost);
@@ -123,9 +130,12 @@ public class GameControls extends JPanel {
 		game.joinGame(gameAccessToken, gameHost);
 	}
 	public void gameRestart(){
+		//showButts([false, false, true, true, true, true, true, false]); //2-step
+		//showButts([false, true, true, false, true, true, true, true]); //1-step
 		game.restart();
 	}
 	public void gameEnd(){
+		//showButts([true, false, true, true, true, false, true, false]);
 		game.stop();
 	}
 	public void gamePing(){
@@ -137,4 +147,17 @@ public class GameControls extends JPanel {
 	public void gameBoardRefresh(){
 		game.refresh();
 	}
+
+	// private void showButts(int[] show){
+	// 	for(int i=0; i<8; i++){
+	// 		if(show[i] != shownButts[i].isShown()){
+	// 			if(show[i]){
+	// 				this.add(startButt);
+	// 			} else {
+	// 				this.remove(startButt);
+	// 			}
+	// 			shownButts.show(show[i]);
+	// 		}
+	// 	}
+	// }
 }
