@@ -239,7 +239,7 @@ public class ErlConnection {
         if(gameJoined){
           return true;
         }
-        else if(function == "join" || function == "start" || function == "stop" || function == "ping" || function == "restart"){
+        else if(function == "join" || function == "start" || function == "stop" || function == "ping" || function == "restart" || function == "refresh"){
           return true;
         }
         return false;
