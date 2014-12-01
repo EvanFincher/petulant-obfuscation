@@ -1,6 +1,8 @@
 -module(javaClient).
 -export([start/2,stop/2,restart/2,join/2,populate/4,lookup/3,ping/2,refresh/2,act/4]).
 
+-define(record_to_tuplelist(Rec, Ref), lists:zip(record_info(fields, Rec),tl(tuple_to_list(Ref)))).
+
 call(Fun, SName, Node, Args) ->
   Response = client:ping(SName, Node),
   case Response of
@@ -93,16 +95,16 @@ act(SName, Node, Action, PlayerName) ->
 
 parseActResponse(ClientResponse)->
   case ClientResponse of
-    {Msg, Board} -> {Msg, maps:toList(Board)}
+    {Msg, Board} -> {Msg, maps:to_list(Board)}
   end.
 
 parseJoinResponse(ClientResponse)->
   case ClientResponse of
-    {PlayerName, Board} -> {PlayerName, maps:toList(Board)}
+    {PlayerName, Board} -> {PlayerName, maps:to_list(Board)}
   end.
 
 parsePopulateResponse(Board)->
-  maps:toList(Board).
+  maps:to_list(Board).
 
 parseLookupResponse(Player)->
   Player.
