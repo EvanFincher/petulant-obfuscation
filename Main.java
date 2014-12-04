@@ -15,6 +15,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.concurrent.*;
 
 public class Main extends JFrame {
     private GameMap harbor_ctrl;
@@ -32,11 +33,19 @@ public class Main extends JFrame {
 	Container content = getContentPane();
 	content.setLayout (new BorderLayout());
 	
-	erl = new ErlConnection("client", "cookie");
+	//Async
+	ArrayBlockingQueue<ClientFunctionTuple> erlServerCalls = new ArrayBlockingQueue<ClientFunctionTuple>(1024);
+	erl = new ErlConnection("client", "cookie", erlServerCalls);
+
+	//erl = new ErlConnection("client", "cookie");
 	harbor_ctrl = new GameMap();
 	GameControls mControls = new GameControls(harbor_ctrl, erl);
 	PlayerControls controls = new PlayerControls(harbor_ctrl, erl);
 	harbor_ctrl.setControls(controls);
+
+	//Async
+	ErlConnThread erlThread = new ErlConnThread(erl, harbor_ctrl, erlServerCalls);
+	new Thread(erlThread).start();
 	
 	JPanel pan = new JPanel();
 	pan.setLayout(new BoxLayout(pan, BoxLayout.X_AXIS));

@@ -30,7 +30,7 @@ call(Fun, SName, Node, Args) ->
             _ ->
               {error, argumentError}
           end;
-        clientRefresh -> client:refresh(SName, Node);
+        clientRefresh -> {ok, client:refresh(SName, Node)};
         clientAct ->
           case Args of
             [Action, PlayerName] ->
@@ -46,7 +46,8 @@ call(Fun, SName, Node, Args) ->
 %returns Pid, Node name of server
 start(SName,Node) ->
   client:start(SName,Node),
-  client:ping(SName,Node).
+  %client:ping(SName,Node).
+  {ok, starting}.
 
 %sends a halt message to the specified server; waits for verification
 stop(SName,Node) ->
@@ -104,7 +105,7 @@ parseJoinResponse(ClientResponse)->
   end.
 
 parsePopulateResponse(Board)->
-  maps:to_list(Board).
+  {ok, maps:to_list(Board)}.
 
 parseLookupResponse(Player)->
   Player.

@@ -1,7 +1,6 @@
 import com.ericsson.otp.erlang.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.concurrent.*;
  
  
 public class ErlConnection {
@@ -20,18 +19,15 @@ public class ErlConnection {
      private OtpErlangAtom sName;
      private OtpErlangAtom sNode;
      private OtpErlangAtom playerName = new OtpErlangAtom("0"); //initialize for now
-
-     private ArrayBlockingQueue<ClientFunctionTuple> serverCalls;
     
  
-      public ErlConnection(String _peer, String _cookie, ArrayBlockingQueue<ClientFunctionTuple> _serverCalls) {
-          serverCalls = _serverCalls;
+      public ErlConnection(String _peer, String _cookie) {
           peer = _peer;
           cookie = _cookie;
           hostname = getHostName();
           //qualifiedPeer = peer + "@" + hostname;
           //qualifiedPeer = "client@ubuntu";
-          qualifiedPeer = "client@lab118g";
+          qualifiedPeer = "client@wr-130-64-196-52";
           connect();
  
           if(!isConnected){
@@ -150,7 +146,7 @@ public class ErlConnection {
      public void joinGame(String gameAccessToken, String serverHost){
         sName = new OtpErlangAtom(gameAccessToken);
         sNode = new OtpErlangAtom(serverHost);
-        if(clientFunctionSync("join")){
+        if(clientFunction("join")){
           gameJoined = true;
         }
      }
@@ -216,52 +212,11 @@ public class ErlConnection {
         clientFunction("lookup", args);
      }
 
-     private void clientFunction(String function, OtpErlangObject[] args){
-        ClientFunctionTuple tuple = new ClientFunctionTuple(function, args);
-        try{
-          serverCalls.put(tuple);
-        }
-        catch (InterruptedException ex){
-          System.out.print("Too many server calls");
-        }
-     }
-     private void clientFunction(String function){
-        if(sName == null || sNode == null){
-          return;
-        }
+     private Boolean clientFunction(String function){
         OtpErlangObject stdArgs[] = new OtpErlangObject[]{sName, sNode};
-        clientFunction(function, stdArgs);
+        return clientFunction(function, stdArgs);
      }
-     public GameBoard clientFunctionAsyncGameBoard(ClientFunctionTuple call){
-        String function = call.function;
-        OtpErlangObject[] args = call.args;
-        GameBoard board  = new GameBoard();
-        if(!checkPermission(function)){
-          return board;
-        }
-        try {
-           conn.sendRPC("javaClient", function, args);
-           received = conn.receiveRPC();
-           System.out.println(function + ":");
-           System.out.println(received.toString());
-           board = parseResponse(function);
-        }
-        catch (Exception exp) {
-           System.out.println(function + " error is :" + exp.toString());
-           exp.printStackTrace();
-         }
-         System.out.println("\n");
-         return board;
-     }
-
-     private Boolean clientFunctionSync(String function){
-        if(sName == null || sNode == null){
-          return false;
-        }
-        OtpErlangObject stdArgs[] = new OtpErlangObject[]{sName, sNode};
-        return clientFunctionSync(function, stdArgs);
-     }
-     private Boolean clientFunctionSync(String function, OtpErlangObject[] args){
+     private Boolean clientFunction(String function, OtpErlangObject[] args){
         Boolean success = false;
         if(!checkPermission(function)){
           return false;
@@ -290,30 +245,5 @@ public class ErlConnection {
         }
         return false;
      }
-<<<<<<< HEAD
-     
-     
-=======
-
-     private GameBoard parseResponse(String function){
-        GameBoard board = new GameBoard();
-        if(function == "start" || function == "stop" || function == "restart" || function == "lookup"){
-          //handle other stuff
-        }
-        else{
-          OtpErlangTuple response = new OtpErlangTuple(received);
-          String status = response.elementAt(0).toString();
-          OtpErlangObject gameBoard = response.elementAt(1);
-          board = parseGameBoard(gameBoard);
-        }
-        return board;
-     }
-
-     private GameBoard parseGameBoard(OtpErlangObject erlOtpBoard){
-        GameBoard board = new GameBoard();
-        System.out.println(erlOtpBoard.toString());
-        return board;
-     }
->>>>>>> 06cfa6e5ffd1d6fc0b0c619cb822ce364f68f67e
  
 }
