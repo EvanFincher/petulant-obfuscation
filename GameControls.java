@@ -82,7 +82,7 @@ public class GameControls extends JPanel {
 		this.add(lab);
 		sName = new MyTextField("game");
 		//sNode = new MyTextField("server@localhost");
-		sNode = new MyTextField("server@ubuntu");
+		sNode = new MyTextField("server@lab118g");
 		this.add(sName);
 		lab = new JLabel("Host:");
 		this.add(lab);

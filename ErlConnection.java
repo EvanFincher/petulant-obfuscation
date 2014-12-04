@@ -203,7 +203,7 @@ public class ErlConnection {
 
      private void action(String action, String direction){
         OtpErlangObject args[] = new OtpErlangObject[]{sName, sNode, new OtpErlangAtom(action), new OtpErlangAtom(direction), playerName};
-        clientFunction("action", args);
+        clientFunction("act", args);
      }
 
      public void lookup(){
@@ -336,6 +336,10 @@ public class ErlConnection {
         System.out.println(playerType + ": " + playerName + " at " + x + "," + y);
         Player p = new Player(playerName.trim(), x, y, playerType.trim());
         return p;
+     }
+
+     private String parsePlayerTypeString(OtpErlangAtom erlOtpPlayerType){
+        return "player"; //Work here
      }
 
  
