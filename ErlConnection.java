@@ -325,7 +325,8 @@ public class ErlConnection {
      }
 
      private Player parsePlayer(OtpErlangObject erlOtpPlayerTile){
-        OtpErlangTuple player = ((OtpErlangTuple)erlOtpPlayerTile).elementAt(1);
+        OtpErlangTuple playerTile = (OtpErlangTuple)erlOtpPlayerTile;
+        OtpErlangTuple player = (OtpErlangTuple)playerTile.elementAt(1);
         OtpErlangTuple location = (OtpErlangTuple)player.elementAt(1);
         String playerName = player.elementAt(2).toString();
         String playerType = player.elementAt(3).toString();
