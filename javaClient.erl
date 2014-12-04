@@ -30,7 +30,7 @@ call(Fun, SName, Node, Args) ->
             _ ->
               {error, argumentError}
           end;
-        clientRefresh -> {ok, client:refresh(SName, Node)};
+        clientRefresh -> {ok, maps:to_list(client:refresh(SName, Node))};
         clientAct ->
           case Args of
             [Action, PlayerName] ->
