@@ -290,10 +290,6 @@ public class ErlConnection {
         }
         return false;
      }
-<<<<<<< HEAD
-     
-     
-=======
 
      private GameBoard parseResponse(String function){
         GameBoard board = new GameBoard();
@@ -314,6 +310,6 @@ public class ErlConnection {
         System.out.println(erlOtpBoard.toString());
         return board;
      }
->>>>>>> 06cfa6e5ffd1d6fc0b0c619cb822ce364f68f67e
+
  
 }
