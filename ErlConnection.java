@@ -324,8 +324,8 @@ public class ErlConnection {
         return board;
      }
 
-     private Player parsePlayer(OtpErlangObject erlOtpPlayer){
-        OtpErlangTuple player = (OtpErlangTuple)erlOtpPlayer;
+     private Player parsePlayer(OtpErlangObject erlOtpPlayerTile){
+        OtpErlangTuple player = ((OtpErlangTuple)erlOtpPlayerTile).elementAt(1);
         OtpErlangTuple location = (OtpErlangTuple)player.elementAt(1);
         String playerName = player.elementAt(2).toString();
         String playerType = player.elementAt(3).toString();
