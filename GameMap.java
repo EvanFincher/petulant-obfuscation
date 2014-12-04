@@ -23,7 +23,7 @@ public class GameMap extends JComponent implements MouseListener {
     private int lattitude = 0;
     private int longitude = 0;
     private Random generator = new Random();
-    private Player myPlayer;
+    private Player myPlayer = new Player("0", 6, 6);
     private ImageIcon myPlayerIcon = new ImageIcon("m-scaled.gif");
     private ImageIcon playerIcon = new ImageIcon("nr-scaled.gif");
     private ImageIcon obstacleIcon = new ImageIcon("sis-scaled.gif");
