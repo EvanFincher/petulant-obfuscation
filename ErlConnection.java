@@ -298,8 +298,10 @@ public class ErlConnection {
         }
         else{
           OtpErlangTuple response = new OtpErlangTuple(received);
+          //OtpErlangTuple response = (OtpErlangTuple)received;
           String status = response.elementAt(0).toString();
           OtpErlangObject gameBoard = response.elementAt(1);
+          System.out.println(status);
           board = parseGameBoard(gameBoard);
         }
         return board;
