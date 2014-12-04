@@ -293,7 +293,7 @@ public class ErlConnection {
 
      private GameBoard parseResponse(String function){
         GameBoard board = new GameBoard();
-        if(function == "start" || function == "stop" || function == "restart" || function == "lookup"){
+        if(function == "start" || function == "stop" || function == "restart" || function == "lookup" || function == "ping"){
           //handle other stuff
         }
         else{
