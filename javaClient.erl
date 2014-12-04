@@ -1,5 +1,5 @@
 -module(javaClient).
--export([start/2,stop/2,restart/2,join/2,populate/4,lookup/3,ping/2,refresh/2,act/4]).
+-export([start/2,stop/2,restart/2,join/2,populate/4,lookup/3,ping/2,refresh/2,act/5]).
 
 -define(record_to_tuplelist(Rec, Ref), lists:zip(record_info(fields, Rec),tl(tuple_to_list(Ref)))).
 
