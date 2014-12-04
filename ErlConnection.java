@@ -325,10 +325,12 @@ public class ErlConnection {
         OtpErlangTuple playerTile = (OtpErlangTuple)erlOtpPlayerTile;
         OtpErlangTuple player = (OtpErlangTuple)playerTile.elementAt(1);
         OtpErlangTuple location = (OtpErlangTuple)player.elementAt(1);
-        OtpErlangAtom erlOtpPlayerName = (OtpErlangAtom)player.elementAt(2);
+        String playerName = player.elementAt(2).toString();
+
         OtpErlangAtom erlOtpPlayerType = (OtpErlangAtom)player.elementAt(3);
-        String playerName = erlOtpPlayerName.toString();
         String playerType = erlOtpPlayerType.toString();
+
+        //String playerType = player.elementAt(3).toString();
         int x = Integer.parseInt(location.elementAt(0).toString());
         int y = Integer.parseInt(location.elementAt(1).toString());
         System.out.println(playerType + ": " + playerName + " at " + x + "," + y);
