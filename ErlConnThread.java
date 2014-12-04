@@ -1,24 +1,24 @@
-import java.util.concurrent;
+
+import java.util.concurrent.*;
 import com.ericsson.otp.erlang.*;
  
 public class ErlConnThread implements Runnable {
  
      private Boolean gameOver = false;
-     private BlockingQueue<ClientFunctionTuple> serverCalls;
-     private BlockingQueue<GameBoard> boardUpdates;
+     private ArrayBlockingQueue<ClientFunctionTuple> serverCalls;
+     private ArrayBlockingQueue<GameBoard> boardUpdates;
      private GameMap map;
      private ErlConnection erlConn;
     
  
-      public ErlConnThread(ErlConnection _erlConn, GameMap _map, BlockingQueue<ClientFunctionTuple> erlOps, BlockingQueue<GameBoard> boardUpdate) {
+      public ErlConnThread(ErlConnection _erlConn, GameMap _map, ArrayBlockingQueue<ClientFunctionTuple> erlOps, ArrayBlockingQueue<GameBoard> boardUpdate) {
           serverCalls = erlOps;
           boardUpdates = boardUpdate;
           erlConn = _erlConn;
           map = _map;
       }
-      public ErlConnThread(ErlConnection _erlConn, GameMap _map, BlockingQueue<ClientFunctionTuple> erlOps) {
+      public ErlConnThread(ErlConnection _erlConn, GameMap _map, ArrayBlockingQueue<ClientFunctionTuple> erlOps) {
           serverCalls = erlOps;
-          boardUpdates = boardUpdate;
           erlConn = _erlConn;
           map = _map;
       }
@@ -35,10 +35,10 @@ public class ErlConnThread implements Runnable {
         }
       }
  
-     private void erlConnectionCall(String call){
+     private void erlConnectionCall(ClientFunctionTuple call){
         GameBoard board;
-        //BEGIN WORK HERE
-        if(board != null){
+        board = erlConn.clientFunctionAsyncGameBoard(call);
+        if(!board.isEmpty()){
           map.pushPlayers(board.getPlayerList());
         }
      }
