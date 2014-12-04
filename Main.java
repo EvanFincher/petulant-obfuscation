@@ -29,7 +29,7 @@ public class Main extends JFrame {
 	// Window setup
 	super("Our Game");
 	//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	setSize (850, 800);
+	setSize (900, 800);
 	Container content = getContentPane();
 	content.setLayout (new BorderLayout());
 	

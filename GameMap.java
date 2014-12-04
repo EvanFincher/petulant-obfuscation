@@ -23,11 +23,13 @@ public class GameMap extends JComponent implements MouseListener {
     private int lattitude = 0;
     private int longitude = 0;
     private Random generator = new Random();
-    private Player myPlayer = new Player("0", 6, 6);
+    private Player myPlayer = new Player("0", 6, 6, "myPlayer");
     private ImageIcon myPlayerIcon = new ImageIcon("m-scaled.gif");
     private ImageIcon playerIcon = new ImageIcon("nr-scaled.gif");
     private ImageIcon obstacleIcon = new ImageIcon("sis-scaled.gif");
     private static int scalar = 65;
+    private static int xBound = 10;
+    private static int yBound = 10;
 
     public GameMap () {
 		players = new ArrayList<Player>();
@@ -55,16 +57,19 @@ public class GameMap extends JComponent implements MouseListener {
     		s.type = myPlayer.type;
     		myPlayer = s;
     	}
-    	//s.icon.paintIcon(this, g, s.x, s.y);
-    	getIcon(s.type).paintIcon(this, g, s.x*scalar + 2, s.y*scalar + 2);
+    	int x = s.x*scalar;
+    	int y = orientationFix(s.y)*scalar;
+    	getIcon(s.type).paintIcon(this, g, x + 2, y + 2);
     }
 
     private void drawGrid(Graphics g){
     	Graphics2D g2d = (Graphics2D)g;
     	g2d.setColor(Color.blue);
 
-    	int w = this.getWidth();
-    	int h = this.getHeight();
+    	// int w = this.getWidth();
+    	// int h = this.getHeight();
+    	int w = (xBound + 2)*scalar;
+    	int h = (yBound + 2)*scalar;
     	for(int i=0; i<(w/scalar); i++){
     		g2d.drawLine(i*scalar, 0, i*scalar, h);
     	}
@@ -74,6 +79,7 @@ public class GameMap extends JComponent implements MouseListener {
     }
 
     private ImageIcon getIcon(String type){
+    	System.out.println(type);
     	if(type == "player"){
     		return playerIcon;
     	}
@@ -95,6 +101,10 @@ public class GameMap extends JComponent implements MouseListener {
     	addPlayer(randomObject());
     }
 
+    private int orientationFix(int y){
+    	return yBound - y;
+    }
+
     public void pushPlayers(ArrayList<Player> _players){
     	players = _players;
     	num_players = players.size();
@@ -104,6 +114,10 @@ public class GameMap extends JComponent implements MouseListener {
     public Player setMyPlayer(Player player){
     	myPlayer = player;
     	myPlayer.type = "myPlayer";
+    	return myPlayer;
+    }
+    public Player setMyPlayer(String playerName){
+    	myPlayer = new Player(playerName, 0, 0, "myPlayer");
     	return myPlayer;
     }
 

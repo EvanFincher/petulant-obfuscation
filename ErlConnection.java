@@ -304,6 +304,9 @@ public class ErlConnection {
           OtpErlangObject gameBoard = response.elementAt(1);
           System.out.println("status: " + status);
           board = parseGameBoard(gameBoard);
+          if(function == "join"){
+            board.setMyPlayer(status);
+          }
         }
         return board;
      }
