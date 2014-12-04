@@ -2,6 +2,7 @@ import com.ericsson.otp.erlang.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.*;
+import java.util.*;
  
  
 public class ErlConnection {
@@ -309,10 +310,30 @@ public class ErlConnection {
 
      private GameBoard parseGameBoard(OtpErlangObject erlOtpBoard){
         GameBoard board = new GameBoard();
-        System.out.println(erlOtpBoard.toString() + "\n");
-        OtpErlangList playerList = (OtpErlangList)erlOtpBoard;
-        System.out.println(playerList.elementAt(0).toString() + "\n");
+        //System.out.println(erlOtpBoard.toString() + "\n");
+        OtpErlangList erlOtpPlayerList = (OtpErlangList)erlOtpBoard;
+        System.out.println(erlOtpPlayerList.elementAt(0).toString() + "\n");
+        ArrayList<Player> playerList = new ArrayList<Player>();
+        for(int i=0; i<erlOtpPlayerList.arity(); i++){
+          Player p = parsePlayer(erlOtpPlayerList.elementAt(i));
+          if(p.type != "bounds"){
+            playerList.add(p);
+          }
+        }
+        board = new GameBoard(playerList);
         return board;
+     }
+
+     private Player parsePlayer(OtpErlangObject erlOtpPlayer){
+        OtpErlangTuple player = (OtpErlangTuple)erlOtpPlayer;
+        OtpErlangTuple location = (OtpErlangTuple)player.elementAt(1);
+        String playerName = player.elementAt(2).toString();
+        String playerType = player.elementAt(3).toString();
+        int x = Integer.parseInt(location.elementAt(0).toString());
+        int y = Integer.parseInt(location.elementAt(1).toString());
+        System.out.println(playerType + ": " + playerName + " at " + x + "," + y);
+        Player p = new Player(playerName, x, y, playerType);
+        return p;
      }
 
  
