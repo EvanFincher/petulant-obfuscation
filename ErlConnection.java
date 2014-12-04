@@ -219,10 +219,11 @@ public class ErlConnection {
      private void clientFunction(String function, OtpErlangObject[] args){
         ClientFunctionTuple tuple = new ClientFunctionTuple(function, args);
         try{
+          System.out.println("Put");
           serverCalls.put(tuple);
         }
         catch (InterruptedException ex){
-          System.out.print("Too many server calls");
+          System.out.println("Too many server calls");
         }
      }
      private void clientFunction(String function){
@@ -301,7 +302,7 @@ public class ErlConnection {
           //OtpErlangTuple response = (OtpErlangTuple)received;
           String status = response.elementAt(0).toString();
           OtpErlangObject gameBoard = response.elementAt(1);
-          System.out.println(status);
+          System.out.println("status: " + status);
           board = parseGameBoard(gameBoard);
         }
         return board;
