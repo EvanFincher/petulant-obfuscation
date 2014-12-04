@@ -33,7 +33,7 @@ public class GameMap extends JComponent implements MouseListener {
 		players = new ArrayList<Player>();
 		num_players = 0;
 		addMouseListener (this);
-		//addKeyListener (this);
+		addKeyListener (new MyKeyListener());
 		this.setBorder (new LineBorder(Color.BLUE, 2));
 		
     }
@@ -332,11 +332,19 @@ public class GameMap extends JComponent implements MouseListener {
     public void mouseEntered (MouseEvent event) {}
     public void mouseExited (MouseEvent event) {}
 
- //    public void keyTyped(KeyEvent e) {}
-	// public void keyPressed(KeyEvent e) {
-	// 	System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
-	// }
-	// public void keyReleased(KeyEvent e) {
-	// 	//System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
-	// }
+ 	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
+		}
+	}
 }
