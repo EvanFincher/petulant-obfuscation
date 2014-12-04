@@ -27,7 +27,7 @@ public class GameControls extends JPanel {
 	private MyButton pingButt;
 	private MyButton popButt;
 
-	//private MyButton[] shownButts = [startButt, freshButt, connButt, joinButt, stopButt, restButt, pingButt, popButt];
+	private MyButton[] shownButts;
 	
 	public GameControls(GameMap m){
 		super();
@@ -81,7 +81,8 @@ public class GameControls extends JPanel {
 		JLabel lab = new JLabel("| Game:");
 		this.add(lab);
 		sName = new MyTextField("game");
-		sNode = new MyTextField("server@localhost");
+		//sNode = new MyTextField("server@localhost");
+		sNode = new MyTextField("server@ubuntu");
 		this.add(sName);
 		lab = new JLabel("Host:");
 		this.add(lab);
@@ -101,7 +102,8 @@ public class GameControls extends JPanel {
 		popButt = new MyButton("Populate", this);
 		this.add(popButt);
 
-		//showButts([true, false, true, true, false, false, false, false]);
+		shownButts = new MyButton[]{startButt, freshButt, connButt, joinButt, stopButt, restButt, pingButt, popButt};
+		showButts(new Boolean[]{true, false, true, true, false, false, false, false});
 	}
 
 	public void gameConnect(){
@@ -111,8 +113,8 @@ public class GameControls extends JPanel {
 		game.disconnect();
 	}
 	public void gameNew(){
-		//showButts([false, false, true, true, true, true, true, false]); //2-step
-		//showButts([false, true, true, false, true, true, true, true]); //1-step
+		showButts(new Boolean[]{false, true, false, true, true, true, true, true}); //2-step
+		//showButts(new Boolean[]{false, true, false, false, true, true, true, true}); //1-step
 		String gameAccessToken = sName.getText();
 		String gameHost = sNode.getText();
 		gameNew(gameAccessToken, gameHost);
@@ -121,7 +123,7 @@ public class GameControls extends JPanel {
 		game.startServer(gameAccessToken, gameHost);
 	}
 	public void gameJoin(){
-		//showButts([false, true, true, false, true, true, true, true]);
+		showButts(new Boolean[]{false, true, false, false, true, true, true, true});
 		String gameAccessToken = sName.getText();
 		String gameHost = sNode.getText();
 		gameJoin(gameAccessToken, gameHost);
@@ -130,12 +132,12 @@ public class GameControls extends JPanel {
 		game.joinGame(gameAccessToken, gameHost);
 	}
 	public void gameRestart(){
-		//showButts([false, false, true, true, true, true, true, false]); //2-step
-		//showButts([false, true, true, false, true, true, true, true]); //1-step
+		showButts(new Boolean[]{false, true, false, true, true, true, true, true}); //2-step
+		//showButts(new Boolean[]{false, true, false, false, true, true, true, true}); //1-step
 		game.restart();
 	}
 	public void gameEnd(){
-		//showButts([true, false, true, true, true, false, true, false]);
+		showButts(new Boolean[]{true, false, true, true, true, false, true, false});
 		game.stop();
 	}
 	public void gamePing(){
@@ -148,16 +150,44 @@ public class GameControls extends JPanel {
 		game.refresh();
 	}
 
-	// private void showButts(int[] show){
-	// 	for(int i=0; i<8; i++){
-	// 		if(show[i] != shownButts[i].isShown()){
-	// 			if(show[i]){
-	// 				this.add(startButt);
-	// 			} else {
-	// 				this.remove(startButt);
-	// 			}
-	// 			shownButts.show(show[i]);
-	// 		}
+	private void showButts(Boolean[] show){
+		for(int i=0; i<8; i++){
+			MyButton butt = shownButts[i];
+			if(butt == null){
+				return;
+			}
+			if(show[i] != butt.isShown()){
+				if(show[i]){
+					this.add(butt);
+				} else {
+					this.remove(butt);
+				}
+				butt.show(show[i]);
+			}
+		}
+	}
+
+	// private MyButton getButt(ButtType butt){
+	// 	switch(butt){
+	// 		case START: return startButt;
+	// 		case FRESH: return freshButt;
+	// 		case CONN: return connButt;
+	// 		case JOIN: return joinButt;
+	// 		case STOP: return stopButt;
+	// 		case PING: return pingButt;
+	// 		case POP: return popButt;
+	// 		default: return connButt; //Idk what else to do
 	// 	}
+	// }
+	// private enum ButtType
+	// {
+	// 	START,
+	// 	FRESH,
+	// 	CONN,
+	// 	JOIN,
+	// 	STOP,
+	// 	REST,
+	// 	PING,
+	// 	POP;
 	// }
 }

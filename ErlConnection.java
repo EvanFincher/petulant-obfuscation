@@ -26,7 +26,8 @@ public class ErlConnection {
           cookie = _cookie;
           hostname = getHostName();
           //qualifiedPeer = peer + "@" + hostname;
-          qualifiedPeer = "evan@ubuntu";
+          //qualifiedPeer = "client@ubuntu";
+          qualifiedPeer = "client@wr-130-64-196-52";
           connect();
  
           if(!isConnected){
