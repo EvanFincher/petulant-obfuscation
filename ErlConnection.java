@@ -286,7 +286,7 @@ public class ErlConnection {
         if(gameJoined){
           return true;
         }
-        else if(function == "join" || function == "start" || function == "stop" || function == "ping" || function == "restart" || function == "refresh"){
+        else if(function == "join" || function == "start" || function == "stop" || function == "ping" || function == "restart" || function == "refresh" || function == "populate"){
           return true;
         }
         return false;
@@ -298,8 +298,8 @@ public class ErlConnection {
           //handle other stuff
         }
         else{
-          OtpErlangTuple response = new OtpErlangTuple(received);
-          //OtpErlangTuple response = (OtpErlangTuple)received;
+          //OtpErlangTuple response = new OtpErlangTuple(received);
+          OtpErlangTuple response = (OtpErlangTuple)received;
           String status = response.elementAt(0).toString();
           OtpErlangObject gameBoard = response.elementAt(1);
           System.out.println("status: " + status);
