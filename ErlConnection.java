@@ -27,7 +27,8 @@ public class ErlConnection {
           hostname = getHostName();
           //qualifiedPeer = peer + "@" + hostname;
           //qualifiedPeer = "client@ubuntu";
-          qualifiedPeer = "client@wr-130-64-196-52";
+          //qualifiedPeer = "client@wr-130-64-196-52";
+	  qualifiedPeer = "client@lab118p";
           connect();
  
           if(!isConnected){
@@ -245,5 +246,7 @@ public class ErlConnection {
         }
         return false;
      }
+     
+     
  
 }

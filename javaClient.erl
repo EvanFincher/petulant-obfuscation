@@ -46,7 +46,7 @@ call(Fun, SName, Node, Args) ->
 %returns Pid, Node name of server
 start(SName,Node) ->
   client:start(SName,Node),
-  ok.
+  client:ping(SName,Node).
 
 %sends a halt message to the specified server; waits for verification
 stop(SName,Node) ->
