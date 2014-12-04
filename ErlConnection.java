@@ -202,13 +202,7 @@ public class ErlConnection {
      }
 
      private void action(String action, String direction){
-        OtpErlangObject actionObj[] = new OtpErlangObject[]{new OtpErlangAtom(action), new OtpErlangAtom(direction)};
-        OtpErlangTuple actionTuple = new OtpErlangTuple(actionObj);
-        action(actionTuple);
-     }
-
-     private void action(OtpErlangTuple action){
-        OtpErlangObject args[] = new OtpErlangObject[]{sName, sNode, action, playerName};
+        OtpErlangObject args[] = new OtpErlangObject[]{sName, sNode, new OtpErlangAtom(action), new OtpErlangAtom(direction), playerName};
         clientFunction("action", args);
      }
 
@@ -336,7 +330,7 @@ public class ErlConnection {
         int x = Integer.parseInt(location.elementAt(0).toString());
         int y = Integer.parseInt(location.elementAt(1).toString());
         System.out.println(playerType + ": " + playerName + " at " + x + "," + y);
-        Player p = new Player(playerName, x, y, playerType);
+        Player p = new Player(playerName.trim(), x, y, playerType.trim());
         return p;
      }
 

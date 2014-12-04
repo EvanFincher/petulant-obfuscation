@@ -89,7 +89,8 @@ refresh(SName, Node) ->
 %send an action to the server for processing
 %e.g. {move, north}, or {attack, east}
 %PlayerName was returned by join function 
-act(SName, Node, Action, PlayerName) ->
+act(SName, Node, Act, Dir, PlayerName) ->
+  Action = {Act, Dir},
   call(clientAct, SName, Node, [Action, PlayerName]).
     % {ok, Board};
     % {failed, Board}

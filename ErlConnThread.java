@@ -39,11 +39,11 @@ public class ErlConnThread implements Runnable {
         GameBoard board;
         board = erlConn.clientFunctionAsyncGameBoard(call);
         if(!board.isEmpty()){
-          map.pushPlayers(board.getPlayerList());
           String playerName = board.getPlayerName();
           if(playerName != "not_set"){
             map.setMyPlayer(playerName);
           }
+          map.pushPlayers(board.getPlayerList());
         }
      }
  
