@@ -1,3 +1,12 @@
+//Dixon Minnick
+//Dixon.Minnick@Tufts.edu
+
+/*
+GameBoard Class
+
+A simple data structure representation of a GameBoard object recieved from the server
+
+*/
 import java.util.*;
 
 public class GameBoard {

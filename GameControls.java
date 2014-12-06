@@ -1,3 +1,15 @@
+//Dixon Minnick
+//Dixon.Minnick@Tufts.edu
+
+/*
+GameControls Class
+
+Contains, manages and renders all controls necessary for
+Connecting to the game server and interacting with the
+game itself
+
+*/
+
 import java.awt.Container;
 import java.awt.Component;
 import java.awt.BorderLayout;
@@ -43,36 +55,6 @@ public class GameControls extends JPanel {
 		this.setLayout (new BoxLayout(this, BoxLayout.X_AXIS));
 		masterControls();
 		this.setBorder (new LineBorder(Color.ORANGE, 1));
-	}
-	private void defaultControls(){
-		 JLabel lab = new JLabel("Label ");
-		 this.add(lab);
-		// lab = new JLabel("Simulation Speed");
-		// MyScrollBar bar = new MyScrollBar(lab, map);
-		// JPanel pan = new JPanel();
-		// pan.setLayout (new BoxLayout(pan, BoxLayout.Y_AXIS));
-		// pan.setBorder (new LineBorder(Color.ORANGE, 1));
-		// pan.add(lab);
-		// pan.add(bar);
-		// this.add(pan);
-		// ErlConnection erl = new ErlConnection("client", "cookie");
-		// MyButton butt = new MyButton("Disconnect", erl);
-		// this.add(butt);
-		// bar = new MyScrollBar("Timer", map);
-		// butt = new MyButton("Timer", bar);
-		// JPanel pan2 = new JPanel();
-		// pan2.setLayout (new BoxLayout(pan2, BoxLayout.X_AXIS));
-		// pan2.add(butt);
-		// butt = new MyButton("Halt", bar);
-		// pan2.add(butt);
-		// pan = new JPanel();
-		// pan.setLayout (new BoxLayout(pan, BoxLayout.Y_AXIS));
-		// pan.setBorder (new LineBorder(Color.ORANGE, 1));
-		// pan.add(pan2);
-		// pan.add(bar);
-		// this.add(pan);
-		// butt = new MyButton("Remove All", map, true);
-		// this.add(butt);
 	}
 
 	private void masterControls(){
@@ -167,27 +149,5 @@ public class GameControls extends JPanel {
 		}
 	}
 
-	// private MyButton getButt(ButtType butt){
-	// 	switch(butt){
-	// 		case START: return startButt;
-	// 		case FRESH: return freshButt;
-	// 		case CONN: return connButt;
-	// 		case JOIN: return joinButt;
-	// 		case STOP: return stopButt;
-	// 		case PING: return pingButt;
-	// 		case POP: return popButt;
-	// 		default: return connButt; //Idk what else to do
-	// 	}
-	// }
-	// private enum ButtType
-	// {
-	// 	START,
-	// 	FRESH,
-	// 	CONN,
-	// 	JOIN,
-	// 	STOP,
-	// 	REST,
-	// 	PING,
-	// 	POP;
-	// }
+	
 }

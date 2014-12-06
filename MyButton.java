@@ -2,8 +2,8 @@
 //Dixon.Minnick@Tufts.edu
 
 //Button Class
-//Creates a general purpose button class that can perform different methods depending on
-//	the constructor
+//Creates a specific purpose button class that can perform different methods depending on
+//	the constructor.
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;

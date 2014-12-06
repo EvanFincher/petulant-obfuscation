@@ -1,8 +1,13 @@
 //Dixon Minnick
 //Dixon.Minnick@Tufts.edu
 
-//Canvas class
-//  used to draw different images on the canvas
+/*
+GameMap class
+
+Contains and manages a representation of the game map,
+including all drawing methods
+
+*/
 
 import java.awt.*;
 import java.awt.event.*;
@@ -142,167 +147,7 @@ public class GameMap extends JComponent implements MouseListener {
 		Player p = new Player(n, x, y, t);
 		return p;
     }
-    
- //    private void move_ship(int i, int distance){
- //    	Ship s = (Ship)ships.get(i);
- //    	s.sail(distance);
- //    	this.repaint();
- //    }
-    
- //    private void move_ship(Ship s, int distance){
- //    	s.sail(distance);
- //    	this.repaint();
- //    }
-    
- // 	public void move_ship(Ship s){
- //    	move_ship(s, tick);
- //    }
-    
- // 	public void move_ships(){
- //    	for(int i=0; i<num_ships; i++){
- //    		move_ship(i, tick);
- //    	}
- //    }
-    
- //    public void changeScore(int deltaScore){
- //    	this.score += deltaScore;
- //    }
- //    public int score(){
- //    	return this.score;
- //    }
-    
- //    private boolean collision(Ship s){
- //    	for(int i=0; i<num_ships; i++){
- //    		Ship s2 = (Ship)ships.get(i);
- //    		if(s == s2){
- //    			//do nothing; ships can't collide with themselves (I hope)
- //    		}
- //    		else if(s.isClicked(s2.longitude(), s2.lattitude())){
- //    			if(s.hasRightOfWayOver(s2)){
- //    				s.collision(s2);
- //    			}
- //    			else {
- //    				s2.collision(s);
- //    			}
- //    			return true;
- //    		}
- //    	}
- //    	return false;
- //    }
-    
- //    public void setSpeed(int i){
- //    	tick = i;
- //    }
-    
- //    public void tick(){
- //    	for(int i=0; i<num_ships; i++){
-	// 		Ship s = (Ship)ships.get(i);
-	// 		s.tick();
-	// 	}
-	// 	this.score--;
-	// 	//System.out.println ("Score: " + this.score());
-	// 	//System.out.println ("W: " + this.getWidth() + ", H: " + this.getHeight());
-	// 	this.controls.tick();
-	// }
-	
-	// public void levelUp(Ship player, Ship star){
-	// 	remove(star);
-	// 	int lat = this.generator.nextInt(this.getHeight());
-	// 	int lon = this.generator.nextInt(this.getWidth());
-	// 	star = new Star(this, "Target", lon, lat);
-	// 	add_ship(star);
-	// 	changeScore(1000);
-	// 	this.level++;
-	// 	if(level > 4){
-	// 		//controller.enable("Four");
-	// 		if(level > 9){
-	// 			//controller.enable("Eight");
-	// 		}
-	// 	}
-		
-	// }
-		
-	
-	// private Ship randomShip(){
-	// 	int lat = this.generator.nextInt(this.getHeight());
-	// 	int lon = this.generator.nextInt(this.getWidth());
-	// 	int deg = this.generator.nextInt(360);
-	// 	double speed = this.generator.nextDouble() * 3;
-	// 	int rand = this.generator.nextInt(this.level);
-	// 	switch(rand){
-	// 		case 0:
-	// 			return new Buoy(this, lon, lat, deg);
-	// 		case 1:
-	// 			return new Bomb(this, lon, lat);
-	// 		case 2:
-	// 			return new Minus(this, lon, lat);
-	// 		case 3:
-	// 			return new Plus(this, lon, lat);
-	// 		case 4:
-	// 			return new Pair(this, lon, lat, deg, speed);
-	// 		case 5:
-	// 			return new Four(this, lon, lat, deg, speed);
-	// 		case 6:
-	// 			return new Eight(this, lon, lat, deg, speed);
-	// 		case 7:
-	// 			return new Yacht(this, lon, lat, deg, speed);
-	// 		case 8:
-	// 			return new Torpedo(this, lon, lat, deg);
-	// 		default:
-	// 			return new Buoy(this, lon, lat, deg);
-	// 	}
-	// }
-	// public void addRandomShip(){
-	// 	this.add_ship(randomShip());
-	// }
-	// public void removeRandomShip(Ship s){
-	// 	int rand = this.generator.nextInt(num_ships);
-	// 	Ship toBeSunk = (Ship)ships.get(rand);
-	// 	if(s != toBeSunk && toBeSunk.myShip() == false){
-	// 		remove(toBeSunk);
-	// 	}
-	// }
-		
-    
- //    public void zoom(int z){
- //    	for(int i=0; i<num_ships; i++){
-	// 		Ship s = (Ship)ships.get(i);
-	// 		s.resize(1/z);
-	// 	}
-	// 	//tick = z*tick;
- //    }
-    
- //    public void add_ship(Ship s){
- //    	ships.add(s);
- //    	num_ships = ships.size();
- //    	this.repaint();
- //    }
-    
-	// public void remove(Ship s){
-	// 	ships.remove(s);
-	// 	num_ships = ships.size();
-	// 	controls.unsetBoat();
-	// 	this.repaint();
-	// }
-	
-	// public void remove(Ship s, String str){
-	// 	ships.remove(s);
-	// 	num_ships = ships.size();
-	// 	controls.unsetBoat(str);
-	// 	this.repaint();
-	// }
-	
-	// public void changeShip(Ship s){
-	// 	remove(this.playerShip);
-	// 	this.playerShip = s;
-	// 	add_ship(this.playerShip);
-	// }
-	
-	// public void remove_all(){
-	// 	ships.clear();
- //    	num_ships = ships.size();
-	// 	this.repaint();
-	// }
+
 	public void setControls(PlayerControls c){
 		this.controls = c;
 	}
@@ -316,11 +161,6 @@ public class GameMap extends JComponent implements MouseListener {
 			controls.setGeo(x, y);
 		}
 	}
-	// public int myShipLon(){return playerShip.longitude();}
-	// public int myShipLat(){return playerShip.lattitude();}
-	// public int myShipHead(){return playerShip.heading();}
-	// public double myShipSpeed(){return playerShip.speed();}
-	// public String myShipRig(){return playerShip.special("Rerig");}
 	
 
     /** MouseListener callbacks */

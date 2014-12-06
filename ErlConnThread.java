@@ -1,4 +1,14 @@
+//Dixon Minnick
+//Dixon.Minnick@Tufts.edu
 
+/*
+ErlConnection Thread Class
+
+Operates a seperate thread that
+contains a thread-safe blocking queue of server calls over the erlang  connection,
+and handles the parsed response.
+
+*/
 import java.util.concurrent.*;
 import com.ericsson.otp.erlang.*;
  

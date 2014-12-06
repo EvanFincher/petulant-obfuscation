@@ -1,26 +1,13 @@
-// // import java.lang.Math.*;
-// import java.awt.Image;
-// import java.awt.Graphics;
-// import java.awt.Graphics2D;
-// import java.awt.Toolkit;
-// import javax.swing.*;
+//Dixon Minnick
+//Dixon.Minnick@Tufts.edu
 
-// public class Player {
-// 	public int x;
-// 	public int y;
-	
-// 	public String name;
-// 	public ImageIcon icon;
+/*
+Player Class
 
-// 	public Player(String n, int x, int y, ImageIcon i){
-// 		this.name = n;
-// 		this.x = x;
-// 		this.y = y;
-// 		this.icon = i;
-// 	}
+A simple data representation of an actor on the gameBoard
+All members and methods are public because information hiding is not necessary
 
-	
-// }
+*/
 
 public class Player {
 	public int x;

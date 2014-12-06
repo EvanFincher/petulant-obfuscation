@@ -1,3 +1,10 @@
+//Dixon Minnick
+//Dixon.Minnick@Tufts.edu
+
+/*
+Text field class
+
+*/
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

@@ -1,3 +1,15 @@
+//Dixon Minnick
+//Dixon.Minnick@Tufts.edu
+
+/*
+ErlConnection Class
+
+Simulates an Erlang node,
+connects and maintains connection to an actual erlang client node,
+Parses the erlang responses into Java datatypes
+
+*/
+
 import com.ericsson.otp.erlang.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
