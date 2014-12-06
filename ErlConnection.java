@@ -163,9 +163,10 @@ public class ErlConnection {
      public void joinGame(String gameAccessToken, String serverHost){
         sName = new OtpErlangAtom(gameAccessToken);
         sNode = new OtpErlangAtom(serverHost);
-        if(clientFunctionSync("join")){
-          gameJoined = true;
-        }
+        // if(clientFunctionSync("join")){
+        //   gameJoined = true;
+        // }
+        clientFunction("join");
      }
 
      public void startServer(String gameAccessToken, String serverHost){
@@ -312,6 +313,7 @@ public class ErlConnection {
           board = parseGameBoard(gameBoard);
           if(function == "join"){
             board.setMyPlayer(status);
+            gameJoined = true;
           }
         }
         return board;
@@ -340,7 +342,7 @@ public class ErlConnection {
         String playerName = player.elementAt(2).toString();
 
         OtpErlangAtom erlOtpPlayerType = (OtpErlangAtom)player.elementAt(3);
-        String playerType = erlOtpPlayerType.toString();
+        String playerType = parsePlayerTypeString(erlOtpPlayerType);
 
         //String playerType = player.elementAt(3).toString();
         int x = Integer.parseInt(location.elementAt(0).toString());
@@ -351,7 +353,13 @@ public class ErlConnection {
      }
 
      private String parsePlayerTypeString(OtpErlangAtom erlOtpPlayerType){
-        return "player"; //Work here
+        if(erlOtpPlayerType.equals(new OtpErlangAtom("bounds"))){
+          return "bounds";
+        }
+        else if(erlOtpPlayerType.equals(new OtpErlangAtom("player"))){
+          return "player";
+        }
+        return "object";
      }
 
  

@@ -63,7 +63,7 @@ public class PlayerControls extends JPanel {
 	// 	super.add(sbarro);
 	// 	bars.add(sbarro);
 	// }
-	public void setPlayer(Player s){
+	public void setMyPlayer(Player s){
 		myPlayer = s;
 		playerName.setText("Player Name: " + s.name);
 		lattitude.setText("Lattitude: " + s.y);

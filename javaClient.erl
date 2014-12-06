@@ -90,8 +90,9 @@ refresh(SName, Node) ->
 %e.g. {move, north}, or {attack, east}
 %PlayerName was returned by join function 
 act(SName, Node, Act, Dir, PlayerName) ->
+  {PlayerNameNum, Rest} = string:to_integer(PlayerName),
   Action = {Act, Dir},
-  call(clientAct, SName, Node, [Action, PlayerName]).
+  call(clientAct, SName, Node, [Action, PlayerNameNum]).
     % {ok, Board};
     % {failed, Board}
 

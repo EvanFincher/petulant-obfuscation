@@ -86,12 +86,15 @@ public class GameMap extends JComponent implements MouseListener {
     private ImageIcon getIcon(String type){
     	System.out.println(type);
     	if(type == "player"){
+    		System.out.println("playa");
     		return playerIcon;
     	}
     	else if(type == "myPlayer"){
+    		System.out.println("mah playa");
     		return myPlayerIcon;
     	}
     	else{
+    		System.out.println("oh no");
     		return obstacleIcon;
     	}
     }
@@ -119,10 +122,12 @@ public class GameMap extends JComponent implements MouseListener {
     public Player setMyPlayer(Player player){
     	myPlayer = player;
     	myPlayer.type = "myPlayer";
+    	controls.setMyPlayer(myPlayer);
     	return myPlayer;
     }
     public Player setMyPlayer(String playerName){
     	myPlayer = new Player(playerName, 0, 0, "myPlayer");
+    	controls.setMyPlayer(myPlayer);
     	return myPlayer;
     }
 
