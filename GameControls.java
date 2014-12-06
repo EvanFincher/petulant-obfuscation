@@ -105,7 +105,7 @@ public class GameControls extends JPanel {
 		game.startServer(gameAccessToken, gameHost);
 	}
 	public void gameJoin(){
-		showButts(new Boolean[]{false, true, false, false, true, true, true, true});
+		showButts(new Boolean[]{false, true, false, false, true, true, true, popButt.isShown()});
 		String gameAccessToken = sName.getText();
 		String gameHost = sNode.getText();
 		gameJoin(gameAccessToken, gameHost);
@@ -126,6 +126,7 @@ public class GameControls extends JPanel {
 		game.ping();
 	}
 	public void gameBoardPopulate(){
+		showButts(new Boolean[]{startButt.isShown(), freshButt.isShown(), false, joinButt.isShown(), stopButt.isShown(), restButt.isShown(), pingButt.isShown(), false});
 		game.populate();
 	}
 	public void gameBoardRefresh(){

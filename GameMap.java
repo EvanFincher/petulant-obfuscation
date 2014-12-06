@@ -59,7 +59,7 @@ public class GameMap extends JComponent implements MouseListener {
     private void paintPlayer (int i, Graphics g){
     	Player s = (Player)players.get(i);
     	if(s.name == myPlayer.name){
-    		s.type = myPlayer.type;
+    		s.type = "myPlayer";
     		myPlayer = s;
     	}
     	int x = s.x*scalar;
