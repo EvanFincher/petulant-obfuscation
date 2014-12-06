@@ -1,4 +1,12 @@
+//Dixon Minnick
+//Dixon.Minnick@Tufts.edu
 
+/*
+PlayerControls Class
+
+A container that holds and manages player control information, associated buttons and their functions
+
+*/
 import java.awt.Container;
 import java.awt.Component;
 import java.awt.BorderLayout;
@@ -77,29 +85,7 @@ public class PlayerControls extends JPanel {
 		// 	b.setBoat(s);
 		// }
 	}
-	// public void unsetBoat(){
-	// 	this.unsetBoat("no_boat");
-	// }
-	// public void unsetBoat(String str){
-	// 	thisBoat = null;
-	// 	shipName.setText("Status: " + str);
-	// 	lattitude.setText("Lattitude: no_boat");
-	// 	longitude.setText("Longitude: no_boat");
-	// 	for(int i=0; i<buttons.size(); i++){
-	// 		MyButton b = (MyButton)buttons.get(i);
-	// 		b.unsetBoat();
-	// 	}
-	// 	for(int i=0; i<bars.size(); i++){
-	// 		MyScrollBar b = (MyScrollBar)bars.get(i);
-	// 		b.unsetBoat();
-	// 	}
-	// }
-	// public void tick(){
-	// 	if(thisBoat != null){
-	// 		lattitude.setText("Lattitude: " + thisBoat.lattitude());
-	// 		longitude.setText("Longitude: " + thisBoat.longitude());
-	// 	}
-	// }
+	
 	private JPanel dPad(){
 		JPanel dPad = new JPanel();
 		dPad.setLayout (new BoxLayout(dPad, BoxLayout.Y_AXIS));

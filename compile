@@ -1,1 +1,1 @@
-javac -classpath jinterface.jar Main.java GameMap.java GameControls.java PlayerControls.java Player.java MyButton.java ErlConnection.java MyTextField.java
+javac -classpath jinterface.jar Main.java GameMap.java GameControls.java PlayerControls.java Player.java MyButton.java ErlConnection.java MyTextField.java GameBoard.java ErlConnThread.java ClientFunctionTuple.java RunTimeVars.java

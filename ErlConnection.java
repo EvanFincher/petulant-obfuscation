@@ -44,7 +44,8 @@ public class ErlConnection {
           hostname = getHostName();
           //qualifiedPeer = peer + "@" + hostname;
           //qualifiedPeer = "client@ubuntu";
-          qualifiedPeer = "client@lab118g";
+          //qualifiedPeer = "client@lab118g";
+          qualifiedPeer = RunTimeVars.qualifiedPeer;
           connect();
  
           if(!isConnected){
