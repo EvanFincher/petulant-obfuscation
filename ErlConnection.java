@@ -32,7 +32,7 @@ public class ErlConnection {
 
      private OtpErlangAtom sName;
      private OtpErlangAtom sNode;
-     private OtpErlangAtom playerName = new OtpErlangAtom("0"); //initialize for now
+     private OtpErlangObject playerName;
 
      private ArrayBlockingQueue<ClientFunctionTuple> serverCalls;
     
@@ -312,6 +312,7 @@ public class ErlConnection {
           System.out.println("status: " + status);
           board = parseGameBoard(gameBoard);
           if(function == "join"){
+            playerName = response.elementAt(0);
             board.setMyPlayer(status);
             gameJoined = true;
           }
