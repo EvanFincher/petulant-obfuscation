@@ -58,6 +58,7 @@ public class GameMap extends JComponent implements MouseListener {
     
     private void paintPlayer (int i, Graphics g){
     	Player s = (Player)players.get(i);
+    	System.out.println(s.name);
     	if(s.name == myPlayer.name){
     		s.type = "myPlayer";
     		myPlayer = s;

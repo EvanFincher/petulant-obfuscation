@@ -340,11 +340,11 @@ public class ErlConnection {
         OtpErlangTuple playerTile = (OtpErlangTuple)erlOtpPlayerTile;
         OtpErlangTuple player = (OtpErlangTuple)playerTile.elementAt(1);
         OtpErlangTuple location = (OtpErlangTuple)player.elementAt(1);
-        String playerName = player.elementAt(2).toString();
-
+        
+        OtpErlangAtom erlOtpPlayerName = (OtpErlangAtom)player.elementAt(2);
         OtpErlangAtom erlOtpPlayerType = (OtpErlangAtom)player.elementAt(3);
-        String playerType = parsePlayerTypeString(erlOtpPlayerType);
-
+        String playerType = parsePlayerTypeString(erlOtpPlayerType, erlOtpPlayerName);
+        String playerName = erlOtpPlayerName.toString();
         //String playerType = player.elementAt(3).toString();
         int x = Integer.parseInt(location.elementAt(0).toString());
         int y = Integer.parseInt(location.elementAt(1).toString());
@@ -353,15 +353,21 @@ public class ErlConnection {
         return p;
      }
 
-     private String parsePlayerTypeString(OtpErlangAtom erlOtpPlayerType){
+     private String parsePlayerTypeString(OtpErlangAtom erlOtpPlayerType, OtpErlangAtom erlOtpPlayerName){
         if(erlOtpPlayerType.equals(new OtpErlangAtom("bounds"))){
           return "bounds";
         }
-        else if(erlOtpPlayerType.equals(new OtpErlangAtom("player"))){
+        else if(playerName != null){
+          if(playerName.equals(erlOtpPlayerName)){
+            return "myPlayer";
+          }
+        }
+        if(erlOtpPlayerType.equals(new OtpErlangAtom("player"))){
           return "player";
         }
         return "object";
      }
 
+     
  
 }
