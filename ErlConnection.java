@@ -341,7 +341,7 @@ public class ErlConnection {
         OtpErlangTuple player = (OtpErlangTuple)playerTile.elementAt(1);
         OtpErlangTuple location = (OtpErlangTuple)player.elementAt(1);
         
-        OtpErlangAtom erlOtpPlayerName = (OtpErlangAtom)player.elementAt(2);
+        OtpErlangObject erlOtpPlayerName = player.elementAt(2);
         OtpErlangAtom erlOtpPlayerType = (OtpErlangAtom)player.elementAt(3);
         String playerType = parsePlayerTypeString(erlOtpPlayerType, erlOtpPlayerName);
         String playerName = erlOtpPlayerName.toString();
@@ -353,7 +353,7 @@ public class ErlConnection {
         return p;
      }
 
-     private String parsePlayerTypeString(OtpErlangAtom erlOtpPlayerType, OtpErlangAtom erlOtpPlayerName){
+     private String parsePlayerTypeString(OtpErlangAtom erlOtpPlayerType, OtpErlangObject erlOtpPlayerName){
         if(erlOtpPlayerType.equals(new OtpErlangAtom("bounds"))){
           return "bounds";
         }
